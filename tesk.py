@@ -1,4 +1,5 @@
 #check mode comad like , modeckeck
+import os
 import subprocess
 from prompt_toolkit import prompt
 from prompt_toolkit.history import FileHistory
@@ -35,13 +36,25 @@ class Tesk:
     
     def testMode(self,userpro):
         #testHisFile = FileHistory(".testhis")
+        interactive_apps = ["nano", "vim", "vi", "htop", "nmap", "ssh", "python3"]
         try:
             while True:
                 testPro  = prompt("@Tesk(test)> :")
-                lsdata = subprocess.run(testPro,capture_output=True,text=True,shell=True)
-                self.console.print(lsdata.stdout)
+                ckeyWord = testPro.split()[0]
+                ans = True
+                for cmd in interactive_apps:
+                    ans = False if cmd  in ckeyWord else True
+                    if ans == False:
+                        break
+                lsdata = subprocess.run(testPro,shell=True,capture_output=ans,text=ans)
+                if(ans == True):
+                    self.console.print(f"\n [bold #81A6C6]{lsdata.stdout} [/ bold #81A6C6] \n")
                 if(testPro == "exit"):
                     break
+                elif("cd" in testPro):
+                    path = testPro.replace("cd ","")
+                    os.chdir(path)
+
         except Exception as err:
             self.console.print("the error is : ",err)
 
