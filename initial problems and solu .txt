@@ -1,0 +1,4 @@
+1. the first problem came when i try to run cd command in test mode 
+-- this happned due to the subprocess , it do go to child dir but delete that shell instently 
+
+soln. we have to run it before it goes to dubprocess 
